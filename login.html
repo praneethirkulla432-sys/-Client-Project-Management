@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login | ClientPM</title><link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">CP</div>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to your Client Project Management account.</p>
+    <form id="loginForm">
+      <label>Email Address<input type="email" id="email" placeholder="you@example.com" required></label>
+      <label>Password<input type="password" id="password" placeholder="Enter password" required></label>
+      <div class="row-between"><label class="check"><input type="checkbox" id="remember"> Remember me</label><a href="#" onclick="alert('For this demo, create a new account or use the demo account shown below.')">Forgot password?</a></div>
+      <button class="primary-btn" type="submit">Login</button>
+    </form>
+    <div class="demo-box"><b>Demo account</b><br>Email: admin@clientpm.com<br>Password: admin123</div>
+    <p class="switch">Don't have an account? <a href="register.html">Create new account</a></p>
+  </div>
+</div>
+<script>
+const demo={name:"Admin User",email:"admin@clientpm.com",password:"admin123",role:"Admin"};
+if(!localStorage.getItem("clientpm_users")) localStorage.setItem("clientpm_users",JSON.stringify([demo]));
+document.getElementById("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const email=document.getElementById("email").value.trim().toLowerCase(), password=document.getElementById("password").value;
+ const users=JSON.parse(localStorage.getItem("clientpm_users")||"[]");
+ const user=users.find(u=>u.email.toLowerCase()===email&&u.password===password);
+ if(!user){alert("Invalid email or password.");return;}
+ localStorage.setItem("clientpm_current",JSON.stringify(user));
+ location.href="index.html";
+});
+</script>
+</body>
+</html>

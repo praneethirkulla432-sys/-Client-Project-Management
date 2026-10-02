@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Create Account | ClientPM</title><link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-logo">CP</div>
+    <h1>Create your account</h1>
+    <p class="muted">Join the Client Project Management platform.</p>
+    <form id="registerForm">
+      <label>Full Name<input id="name" placeholder="Your full name" required></label>
+      <label>Email Address<input type="email" id="email" placeholder="you@example.com" required></label>
+      <label>Role<select id="role"><option>Project Member</option><option>Project Manager</option><option>Developer</option><option>Designer</option><option>QA</option><option>Client</option></select></label>
+      <label>Password<input type="password" id="password" minlength="6" placeholder="Minimum 6 characters" required></label>
+      <label>Confirm Password<input type="password" id="confirm" minlength="6" placeholder="Re-enter password" required></label>
+      <button class="primary-btn" type="submit">Create Account</button>
+    </form>
+    <p class="switch">Already have an account? <a href="login.html">Login</a></p>
+  </div>
+</div>
+<script>
+document.getElementById("registerForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim().toLowerCase();
+ const role=document.getElementById("role").value, password=document.getElementById("password").value, confirm=document.getElementById("confirm").value;
+ if(password!==confirm){alert("Passwords do not match.");return;}
+ let users=JSON.parse(localStorage.getItem("clientpm_users")||"[]");
+ if(users.some(u=>u.email.toLowerCase()===email)){alert("An account with this email already exists.");return;}
+ const user={name,email,role,password}; users.push(user);
+ localStorage.setItem("clientpm_users",JSON.stringify(users)); localStorage.setItem("clientpm_current",JSON.stringify(user));
+ alert("Account created successfully!"); location.href="index.html";
+});
+</script>
+</body>
+</html>
